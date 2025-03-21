@@ -8,8 +8,8 @@ async function fetchClass(){
             }
         });
         const studentData = await response.json();
-        classId = studentData.classId;
-        console.log(className);
+        classId = studentData.classId._id;
+        console.log(classId);
     } catch (error) {
         console.error('Error fetching class:', error);
     }
@@ -78,8 +78,10 @@ async function fetchAttendance() {
             throw new Error("Invalid response format");
         }
 
+        const tableHeader = document.getElementById("attendance-table-header");
         const tableBody = document.getElementById("attendance-table-body");
-        tableBody.innerHTML = ""; // Clear previous data
+        tableHeader.innerHTML = "<th>Student Name</th>"; // Clear previous headers
+        tableBody.innerHTML = "";
 
         if (attendanceRecords.length === 0) {
             alert("No attendance records found for this class.");
@@ -89,14 +91,25 @@ async function fetchAttendance() {
         // Get number of days in the selected month
         const year = new Date().getFullYear();
         const daysInMonth = new Date(year, month, 0).getDate();
+        for (let i = 1; i <= daysInMonth; i++) {
+              const date = new Date(year, month - 1, i);
+            if (date.getDay() !== 0) { // Skip Sundays (0 = Sunday)
+                const th = document.createElement("th");
+                th.textContent = i;
+                tableHeader.appendChild(th);
+            }
+        }
         const row = document.createElement("tr");
         row.innerHTML = `<td>${attendanceRecords[1].student.username}</td>`;
-        attendanceRecords.forEach(record => {
-                const isChecked = record.status === "Present" ? "checked" : "";
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month - 1, i);
+            if (date.getDay() !== 0) { // Skip Sundays (0 = Sunday)
+                const record = attendanceRecords.find(record => new Date(record.date).getDate() === i);
+                const isChecked = record && record.status === "Present" ? "checked" : "";
                 row.innerHTML += `<td><input type='checkbox' data-student='${record.student._id}' ${isChecked} onclick="return false"></td>`;
+            }
+        }
         tableBody.appendChild(row);
-        });
-
         // Calculate and display attendance percentage
         const attendancePercentage = calculateAttendancePercentage(attendanceRecords, daysInMonth);
         document.getElementById("attendance-percentage").textContent = `Attendance Percentage: ${attendancePercentage}%`;
@@ -123,7 +136,7 @@ async function fetchMonthlyReport() {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/attendance/student/monthly?month=${month}`, {
+        const response = await fetch(`http://localhost:5000/api/attendance/student/monthly?month=${month}&classId=${classId}`, {
             headers: {
                 "Authorization": localStorage.getItem("token") // Include token
             }

@@ -146,11 +146,13 @@ router.get("/report", authMiddleware, async (req, res) => {
 
 // Route to fetch monthly report for all subjects
 router.get('/student/monthly', authMiddleware, async (req, res) => {
-    const { month } = req.query;
+    const { month, classId } = req.query;
     const studentId = req.user.id;
-
+    if (!classId || !month) {
+        return res.status(400).json({ message: "Class ID, Subject ID, and Month are required" });
+    }
     try {
-        const subjects = await Subject.find();
+        const subjects = await Subject.find({classId});
         const reportData = [];
 
         for (const subject of subjects) {

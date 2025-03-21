@@ -50,7 +50,7 @@ function getAdminUsernameFromToken() {
         const payloadBase64 = token.split(".")[1]; // Get the payload part
         const decodedPayload = atob(payloadBase64); // Decode from Base64
         const payload = JSON.parse(decodedPayload); // Parse JSON
-        return payload.username || "Admin"; // Return username if present
+        return payload.username || "User"; // Return username if present
     } catch (error) {
         console.error("Error decoding token:", error);
         return "Admin";

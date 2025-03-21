@@ -142,7 +142,9 @@ async function fetchAttendance() {
         const response = await fetch(`http://localhost:5000/api/attendance?classId=${classId}&subjectId=${subjectId}&month=${month}`);
         const students = await response.json();
 
+        const tableHeader = document.getElementById("attendance-table-header");
         const tableBody = document.getElementById("attendance-table-body");
+        tableHeader.innerHTML = "<th>Student Name</th>"; // Clear previous headers
         tableBody.innerHTML = ""; // Clear previous data
 
         if (students.length === 0) {
@@ -153,14 +155,25 @@ async function fetchAttendance() {
         // Get number of days in the selected month
         const year = new Date().getFullYear();
         const daysInMonth = new Date(year, month, 0).getDate();
-
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month - 1, i);
+            if (date.getDay() !== 0) { // Skip Sundays (0 = Sunday)
+                const th = document.createElement("th");
+                th.textContent = i;
+                tableHeader.appendChild(th);
+            }
+        }
         students.forEach(student => {
             const row = document.createElement("tr");
             row.innerHTML = `<td>${student.name}</td>`;
 
             for (let i = 1; i <= daysInMonth; i++) {
-                const isChecked = student.attendance[i] === "Present" ? "checked" : "";
-                row.innerHTML += `<td><input type='checkbox' data-student='${student.id}' data-day='${i}' ${isChecked}></td>`;
+                const date = new Date(year, month - 1, i);
+                if (date.getDay() !== 0) { // Skip Sundays (0 = Sunday)
+                    const isChecked = student.attendance[i] === "Present" ? "checked" : "";
+                    row.innerHTML += `<td><input type='checkbox' data-student='${student.id}' data-day='${i}' ${isChecked}></td>`;
+                }
+                
             }
 
             tableBody.appendChild(row);
