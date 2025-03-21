@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <script src="admin.js"></script>
+    <script src="teacher.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>Teacher Dashboard</h2>
+            <ul>
+                <li><a href="#" onclick="showSection('subjects')"> Assigned Subjects </a></li>
+                <li><a href="#" onclick="showSection('attendance')"> Mark Attendance </a></li>
+                <li><a href="#" onclick="showSection('reports')"> Student Reports </a></li>
+            </ul>
+            <div class="admin-profile">
+                <div class="admin-info" onclick="showAdminMenu()">
+                    <img src="profile.png" alt="Profile" class="profile-icon">
+                    <span id="admin-name">Teacher</span>
+                </div>
+                <div id="admin-menu" class="menu-hide">
+                    <button onclick="changeAdminPassword()">Change Password</button>
+                    <button onclick="deleteAdminAccount()">Delete Account</button>
+                    <button onclick="logoutAdmin()">Logout</button>
+                </div>
+            </div>
+        </nav>
+        <main class="content">
+            <section id="subjects" class="section">
+                <h2>Assigned Subjects</h2>
+                <ul id="subject-list"></ul>
+            </section>
+            <section id="attendance" class="section hidden">
+                <h2>Mark Attendance</h2>
+                <div>
+                    <label for="class-dropdown">Select Class:</label>
+                    <select id="class-dropdown" onchange="fetchSubjectsDropdown()"></select>
+                    <label for="subject-dropdown">Select Subject:</label>
+                    <select id="subject-dropdown"></select>
+                    <label for="month-dropdown">Select Month:</label>
+                    <select id="month-dropdown">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <button onclick="fetchAttendance()">Mark</button>
+                </div>
+                <div id="attendance-form" class="hidden">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th colspan="31">Days</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-table-body"></tbody>
+                    </table>
+                    <button onclick="submitAttendance()">Submit</button>
+                </div>
+            </section>
+            <section id="reports" class="section hidden">
+                <h2>Monthly Reports</h2>
+                <div>
+                    <label for="report-class-dropdown">Select Class:</label>
+                    <select id="report-class-dropdown" onchange="fetchReportSubjectsDropdown()"></select>
+                    <label for="report-subject-dropdown">Select Subject:</label>
+                    <select id="report-subject-dropdown"></select>
+                    <label for="report-month-dropdown">Select Month:</label>
+                    <select id="report-month-dropdown">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <button onclick="generateReport()">Generate Report</button>
+                </div>
+                <div id="reports-content"></div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

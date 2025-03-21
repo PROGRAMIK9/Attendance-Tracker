@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <script src="admin.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <ul>
+                <li><a href="#" onclick="showSection('classes')"> Manage Classes </a></li>
+                <li><a href="#" onclick="showSection('students')"> Manage Students </a></li>
+                <li><a href="#" onclick="showSection('teachers')"> Manage Teachers </a></li>
+                <li><a href="#" onclick="showSection('subjects')"> Manage Subjects </a></li>
+            </ul>
+            <div class="admin-profile">
+                <div class="admin-info" onclick="showAdminMenu()">
+                    <img src="profile.png" alt="Profile" class="profile-icon">
+                    <span id="admin-name">Admin</span>
+                </div>
+                <div id="admin-menu" class="menu-hide">
+                    <button onclick="changeAdminPassword()">Change Password</button>
+                    <button onclick="deleteAdminAccount()">Delete Account</button>
+                    <button onclick="logoutAdmin()">Logout</button>
+                </div>
+            </div>
+        </nav>
+        <main class="content">
+            <section id="classes" class="section">
+                <h2>Manage Classes</h2>
+                <button onclick="showClassForm()">Add Class</button>
+                <div id="class-form" class="hidden">
+                    <input type="text" id="class-name" placeholder="Enter class name" >
+                    <button onclick="addClass()">Save</button>
+                </div>
+                <ul id="class-list"></ul>
+            </section>
+            <section id="students" class="section" style="display: none;">
+                <h2>Manage Students</h2>
+                <button onclick="showStudentForm()">Add Student</button>
+                <div id="student-form" class="hidden">
+                    <input type="text" id="student-username" placeholder="Enter Student name">
+                    <select id="class-student-dropdown"></select>
+                    <button onclick="addStudent()">Save</button>
+                </div>
+                <div id="student-list"></div>
+            </section>
+            <section id="teachers" class="section" style="display: none;">
+                <h2>Manage Teachers</h2>
+                <button onclick="showTeacherForm()">Add Teacher</button>
+                <div id="teacher-form" class="hidden">
+                    <input type="text" id="teacher-username" placeholder="Enter Teacher name">
+                    <button onclick="addTeacher()">Save</button>
+                </div>
+                <div id="teacher-list"></div>
+            </section>
+            <section id="subjects" class="section" style="display: none;">
+                <h2>Manage Subjects</h2>
+                <button onclick="showSubjectForm()">Add Subject</button>
+                
+                <div id="subject-form" class="hidden">
+                    <input type="text" id="subject-name" placeholder="Enter subject name">
+                    <select id="class-dropdown"></select>
+                    <select id="teacher-dropdown"></select>
+                    <button onclick="addSubject()">Save</button>
+                </div>
+                
+                <ul id="subject-list"></ul>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

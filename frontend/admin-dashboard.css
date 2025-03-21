@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+.sidebar h2 {
+    text-align: center;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    margin: 15px 0;
+}
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    background: #34495e;
+    border-radius: 5px;
+    text-align: center;
+}
+.sidebar ul li a:hover {
+    background: #1abc9c;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ecf0f1;
+}
+.section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+button {
+    background: #1abc9c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background: #16a085;
+}
+
+.hidden{
+    display: none;
+}
+
+.class-item,.teacher-item,.student-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.logout-btn {
+    margin-top: auto;
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+.admin-profile {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #2c3e50;
+    padding: 10px;
+    border-radius: 8px;
+    gap:10px;
+    color: white;
+    transition: background 0.3s;
+}
+
+.admin-info:hover {
+    background: #34495e;
+}
+
+.profile-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+#admin-menu {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    padding: 10px;
+    min-width: 160px;
+    z-index: 10;
+}
+
+#admin-menu button {
+    background: none;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.3s;
+}
+
+#admin-menu button:hover {
+    background: #f0f0f0;
+}
+
+.menu-hide{
+    display: none;
+}
