@@ -44,6 +44,9 @@ router.get("/", authMiddleware, async (req, res) => {
     }
 });
 
+
+
+
 // ✅ Delete a teacher
 router.delete("/:id", async (req, res) => {
     try {

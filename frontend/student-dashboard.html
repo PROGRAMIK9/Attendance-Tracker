@@ -18,6 +18,7 @@
                 <li><a href="#" onclick="showSection('subjects')"> Subjects </a></li>
                 <li><a href="#" onclick="showSection('attendance')"> Attendance </a></li>
                 <li><a href="#" onclick="showSection('reports')"> Attendance Report </a></li>
+                <li><a href="#" onclick="showSection('feedback')"> Feedback </a></li>
             </ul>
             <div class="admin-profile">
                 <div class="admin-info" onclick="showAdminMenu()">
@@ -106,7 +107,17 @@
                         </tbody>
                     </table>
                 </div>
-            
+            </section>
+            <section id="feedback" class="section hidden">
+                <h2>Feedback</h2>
+                <form id="feedbackform" onsubmit="feedbackSubmit(event)">
+                    <label for="feed-subject-dropdown">Select Subject:</label>
+                    <select id="feed-subject-dropdown" name="subject" required></select>
+                    <label for="feedbackmsg">Your Feedback:</label>
+                    <textarea id="feedbackmsg" name="feedback" required></textarea>
+                    <button type="submit">Submit Feedback</button>
+                </form>
+                <div id="feedback-messages"></div>
             </section>
         </main>
     </div>

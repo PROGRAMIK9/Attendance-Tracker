@@ -58,6 +58,30 @@ async function fetchSubjectsDropdown() {
     }
 }
 
+
+async function fetchFeedSubjectsDropdown() {
+    try {
+        const response = await fetch("http://localhost:5000/api/subjects/students", {
+            headers: {
+                "Authorization": localStorage.getItem("token") // Include token
+            }
+        });
+        const subjects = await response.json();
+
+        const dropdown = document.getElementById("feed-subject-dropdown");
+        dropdown.innerHTML = "<option value=''>Select a subject</option>";
+
+        subjects.forEach(sub => {
+            const option = document.createElement("option");
+            option.value = sub._id;
+            option.textContent = sub.name;
+            dropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error fetching subjects:", error);
+    }
+}
+
 async function fetchAttendance() {
     const subjectId = document.getElementById("subject-dropdown").value;
     const month = document.getElementById("month-dropdown").value;
@@ -128,6 +152,38 @@ function calculateAttendancePercentage(records, daysInMonth) {
     return ((presentDays / daysInMonth) * 100).toFixed(2);
 }
 
+async function feedbackSubmit(event) {
+    event.preventDefault();
+
+    const subjectId = document.getElementById("feed-subject-dropdown").value;
+    const feedback = document.getElementById("feedbackmsg").value;
+    const feedbackMessages = document.getElementById("feedback-messages");
+    console.log(subjectId, feedback);
+    try {
+        const response = await fetch("http://localhost:5000/api/feedback/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
+            body: JSON.stringify({ subjectId, feedback })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            feedbackMessages.textContent = "Feedback submitted successfully.";
+            document.getElementById("feedback").value = ""; // Clear the textarea
+        } else {
+            feedbackMessages.textContent = result.message || "Failed to submit feedback.";
+        }
+    } catch (error) {
+        console.error("Error submitting feedback:", error);
+        feedbackMessages.textContent = "An error occurred. Please try again.";
+    }
+}
+
+
 async function fetchMonthlyReport() {
     const month = document.getElementById("report-month-dropdown").value;
     if (!month) {
@@ -168,3 +224,4 @@ async function fetchMonthlyReport() {
 document.addEventListener("DOMContentLoaded", fetchClass);
 document.addEventListener("DOMContentLoaded", fetchSubjects);
 document.addEventListener("DOMContentLoaded", fetchSubjectsDropdown);
+document.addEventListener("DOMContentLoaded", fetchFeedSubjectsDropdown);

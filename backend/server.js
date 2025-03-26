@@ -8,6 +8,7 @@ const teacherRoutes = require("./routes/teacher");
 const studentRoutes = require("./routes/student");
 const subjectRoutes = require("./routes/subject");
 const AttendanceRoutes = require("./routes/attendance");
+const FeedbackRoutes = require("./routes/feedback");
 const app= express();
 
 app.use(express.json());
@@ -34,6 +35,8 @@ app.use("/api/students", studentRoutes);
 app.use("/api/subjects", subjectRoutes);
 
 app.use("/api/attendance", AttendanceRoutes);
+
+app.use("/api/feedback", FeedbackRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
