@@ -18,6 +18,7 @@
                 <li><a href="#" onclick="showSection('subjects')"> Assigned Subjects </a></li>
                 <li><a href="#" onclick="showSection('attendance')"> Mark Attendance </a></li>
                 <li><a href="#" onclick="showSection('reports')"> Student Reports </a></li>
+                <li><a href="#" onclick="showSection('feedback')">Feedback</a></li>
             </ul>
             <div class="admin-profile">
                 <div class="admin-info" onclick="showAdminMenu()">
@@ -97,6 +98,12 @@
                     <button onclick="generateReport()">Generate Report</button>
                 </div>
                 <div id="reports-content"></div>
+            </section>
+            <section id="feedback" class="section hidden">
+                <h2>Feedback</h2>
+                <div id="feedback-container">
+                    <!-- Feedback data will be dynamically inserted here -->
+                </div>
             </section>
         </main>
     </div>

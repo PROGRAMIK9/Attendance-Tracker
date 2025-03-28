@@ -278,6 +278,71 @@ async function generateReport() {
     }
 }
 
+async function fetchFeedback() {
+    try {
+        const response = await fetch("http://localhost:5000/api/feedback/teacher", {
+            headers: {
+                "Authorization": localStorage.getItem("token") // Include token
+            }
+        });
+        const feedbacks = await response.json();
+
+        const feedbackContainer = document.getElementById("feedback-container");
+        feedbackContainer.innerHTML = ""; // Clear previous feedback
+        console.log(feedbacks);
+        if (feedbacks.length === 0) {
+            feedbackContainer.innerHTML = "<p>No feedback available.</p>";
+            return;
+        }
+
+        // Group feedback by subjectId
+        const feedbackBySubject = feedbacks.reduce((acc, feedback) => {
+            if (!acc[feedback.subjectId._id]) {
+                acc[feedback.subjectId._id] = [];
+            }
+            acc[feedback.subjectId._id].push(feedback);
+            return acc;
+        }, {});
+        console.log(feedbackBySubject);
+        // Display feedback grouped by subject
+        for (const subjectId in feedbackBySubject) {
+            const subjectFeedback = feedbackBySubject[subjectId];
+            console.log(subjectId);
+            // Create a container for each subject's feedback
+            const subjectContainer = document.createElement("div");
+            subjectContainer.classList.add("subject-container");
+        
+            // Create a box for the subject
+            const subjectBox = document.createElement("div");
+            subjectBox.classList.add("feedback-box");
+        
+            // Add subject name (fetch details if not included in feedback)
+            const subjectName = subjectFeedback[0].subjectId.name || "Unknown Subject";
+            const subjectTitle = document.createElement("h3");
+            subjectTitle.textContent = subjectName;
+            subjectBox.appendChild(subjectTitle);
+        
+            // Add feedback messages
+            subjectFeedback.forEach(feedback => {
+                const feedbackMessage = document.createElement("p");
+                feedbackMessage.textContent = feedback.feedback;
+                subjectBox.appendChild(feedbackMessage);
+            });
+        
+            // Append the subject box to the subject container
+            subjectContainer.appendChild(subjectBox);
+        
+            // Append the subject container to the feedback container
+            feedbackContainer.appendChild(subjectContainer);
+        }
+    } catch (error) {
+        console.error("Error fetching feedback:", error);
+        const feedbackContainer = document.getElementById("feedback-container");
+        feedbackContainer.innerHTML = "<p>Failed to load feedback. Please try again later.</p>";
+    }
+}
+
 document.addEventListener("DOMContentLoaded", fetchSubjects);
 document.addEventListener("DOMContentLoaded", fetchClassDropdown);
 document.addEventListener("DOMContentLoaded", fetchReportClassDropdown);
+document.addEventListener("DOMContentLoaded", fetchFeedback);
