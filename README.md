@@ -1,5 +1,5 @@
 ﻿# Attendance-Tracker
-This site tracks attendancem, has a feedback mechanism and also enables teachers to submit leave application.
+This site tracks attendance, has a feedback mechanism and also enables teachers to submit leave application.
 As of now you can only enter attendance considering one subject gets one hour per day. 
 To run after cloning:
 
