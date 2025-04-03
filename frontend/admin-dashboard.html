@@ -18,6 +18,7 @@
                 <li><a href="#" onclick="showSection('students')"> Manage Students </a></li>
                 <li><a href="#" onclick="showSection('teachers')"> Manage Teachers </a></li>
                 <li><a href="#" onclick="showSection('subjects')"> Manage Subjects </a></li>
+                <li><a href="#" onclick="showSection('leave-requests')"> Manage Leave Requests</a></li>
             </ul>
             <div class="admin-profile">
                 <div class="admin-info" onclick="showAdminMenu()">
@@ -72,6 +73,12 @@
                 </div>
                 
                 <ul id="subject-list"></ul>
+            </section>
+            <section id="leave-requests" class="section" style="display: none;">
+                <h2>Manage Leave Requests</h2>
+                <div id="leave-requests-container">
+                    <!-- Leave requests will be dynamically inserted here -->
+                </div>
             </section>
         </main>
     </div>

@@ -151,3 +151,69 @@ button:hover {
 .menu-hide{
     display: none;
 }
+
+.application-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.application-box p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.application-box button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+}
+
+.application-box button:hover {
+    opacity: 0.9;
+}
+
+.request-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.request-box p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.actions {
+    margin-top: 10px;
+}
+
+.actions button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    opacity: 0.9;
+}
+
+.actions button:first-child {
+    background-color: #4caf50;
+    color: white;
+}
+
+.actions button:last-child {
+    background-color: #f44336;
+    color: white;
+}

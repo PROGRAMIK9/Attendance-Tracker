@@ -67,6 +67,9 @@ function showSection(sectionId) {
         section.style.display = 'none';
     });
     document.getElementById(sectionId).style.display = 'block';
+    if (sectionId === "leave-requests") {
+        fetchLeaveRequests(); // Fetch leave requests when the section is shown
+    }
 }
 
 function showClassForm() {
@@ -429,6 +432,87 @@ async function deleteSubject(subjectId) {
 function logoutAdmin() {
     localStorage.removeItem("adminToken"); 
     window.location.href = "login.html";
+}
+
+async function fetchLeaveRequests() {
+    const leaveRequestsContainer = document.getElementById("leave-requests-container");
+
+    try {
+        const response = await fetch("http://localhost:5000/api/leave/requests", {
+            headers: {
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+
+        const leaveRequests = await response.json();
+        leaveRequestsContainer.innerHTML = ""; // Clear previous requests
+
+        if (leaveRequests.length === 0) {
+            leaveRequestsContainer.innerHTML = "<p>No leave requests found.</p>";
+            return;
+        }
+
+        leaveRequests.forEach(request => {
+            const requestBox = document.createElement("div");
+            requestBox.classList.add("request-box");
+
+            const teacherName = document.createElement("p");
+            teacherName.textContent = `Teacher: ${request.teacherName}`;
+            requestBox.appendChild(teacherName);
+
+            const date = document.createElement("p");
+            date.textContent = `Date: ${new Date(request.date).toLocaleDateString()}`;
+            requestBox.appendChild(date);
+
+            const reason = document.createElement("p");
+            reason.textContent = `Reason: ${request.reason}`;
+            requestBox.appendChild(reason);
+
+            const actions = document.createElement("div");
+            actions.classList.add("actions");
+
+            const approveButton = document.createElement("button");
+            approveButton.textContent = "Approve";
+            approveButton.onclick = () => updateLeaveRequest(request._id, "Approved", requestBox);
+            actions.appendChild(approveButton);
+
+            const rejectButton = document.createElement("button");
+            rejectButton.textContent = "Reject";
+            rejectButton.onclick = () => updateLeaveRequest(request._id, "Rejected", requestBox);
+            actions.appendChild(rejectButton);
+
+            requestBox.appendChild(actions);
+            leaveRequestsContainer.appendChild(requestBox);
+        });
+    } catch (error) {
+        console.error("Error fetching leave requests:", error);
+        leaveRequestsContainer.innerHTML = "<p>Failed to load leave requests. Please try again later.</p>";
+    }
+}
+
+async function updateLeaveRequest(leaveId, status, requestBox) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/leave/update/${leaveId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
+            body: JSON.stringify({ status })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            requestBox.remove(); // Remove the request from the list
+            alert(`Leave request ${status.toLowerCase()} successfully.`);
+        } else {
+            alert(result.message || "Failed to update leave request.");
+        }
+    } catch (error) {
+        console.error("Error updating leave request:", error);
+        alert("An error occurred. Please try again.");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -342,7 +342,115 @@ async function fetchFeedback() {
     }
 }
 
+async function leaveSubmit(event) {
+    event.preventDefault();
+
+    const date = document.getElementById("leave-date").value;
+    const reason = document.getElementById("leavemsg").value;
+    const applicationsContainer = document.getElementById("applications");
+
+    try {
+        const response = await fetch("http://localhost:5000/api/leave/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            },
+            body: JSON.stringify({ date, reason })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            applicationsContainer.textContent = "Leave application submitted successfully.";
+            document.getElementById("leave-date").value = ""; // Clear the date input
+            document.getElementById("leavemsg").value = ""; // Clear the textarea
+            fetchLeaveApplications(); // Refresh the list of applications
+        } else {
+            applicationsContainer.textContent = result.message || "Failed to submit leave application.";
+        }
+    } catch (error) {
+        console.error("Error submitting leave application:", error);
+        applicationsContainer.textContent = "An error occurred. Please try again.";
+    }
+}
+
+async function fetchLeaveApplications() {
+    const applicationsContainer = document.getElementById("applications");
+
+    try {
+        const response = await fetch("http://localhost:5000/api/leave/teacher", {
+            headers: {
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+
+        const leaveApplications = await response.json();
+        applicationsContainer.innerHTML = ""; // Clear previous applications
+
+        if (leaveApplications.length === 0) {
+            applicationsContainer.innerHTML = "<p>No leave applications found.</p>";
+            return;
+        }
+
+        leaveApplications.forEach(application => {
+            const applicationBox = document.createElement("div");
+            applicationBox.classList.add("application-box");
+
+            const date = document.createElement("p");
+            date.textContent = `Date: ${new Date(application.date).toLocaleDateString()}`;
+            applicationBox.appendChild(date);
+
+            const reason = document.createElement("p");
+            reason.textContent = `Reason: ${application.reason}`;
+            applicationBox.appendChild(reason);
+
+            const status = document.createElement("p");
+            status.textContent = `Status: ${application.status}`;
+            applicationBox.appendChild(status);
+
+            const submittedAt = document.createElement("p");
+            submittedAt.textContent = `Submitted At: ${new Date(application.createdAt).toLocaleString()}`;
+            applicationBox.appendChild(submittedAt);
+
+            // Add delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.onclick = () => deleteLeaveApplication(application._id, applicationBox);
+            applicationBox.appendChild(deleteButton);
+
+            applicationsContainer.appendChild(applicationBox);
+        });
+    } catch (error) {
+        console.error("Error fetching leave applications:", error);
+        applicationsContainer.innerHTML = "<p>Failed to load leave applications. Please try again later.</p>";
+    }
+}
+
+async function deleteLeaveApplication(leaveId, applicationBox) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/leave/delete/${leaveId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+
+        if (response.ok) {
+            applicationBox.remove(); // Remove the application from the UI
+            alert("Leave application deleted successfully.");
+        } else {
+            const result = await response.json();
+            alert(result.message || "Failed to delete leave application.");
+        }
+    } catch (error) {
+        console.error("Error deleting leave application:", error);
+        alert("An error occurred. Please try again.");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", fetchSubjects);
 document.addEventListener("DOMContentLoaded", fetchClassDropdown);
 document.addEventListener("DOMContentLoaded", fetchReportClassDropdown);
 document.addEventListener("DOMContentLoaded", fetchFeedback);
+document.addEventListener("DOMContentLoaded", fetchLeaveApplications);
