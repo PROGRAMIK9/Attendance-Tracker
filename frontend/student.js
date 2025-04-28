@@ -9,7 +9,7 @@ async function fetchClass(){
         });
         const studentData = await response.json();
         classId = studentData.classId._id;
-        console.log(classId);
+        
     } catch (error) {
         console.error('Error fetching class:', error);
     }
@@ -158,7 +158,7 @@ async function feedbackSubmit(event) {
     const subjectId = document.getElementById("feed-subject-dropdown").value;
     const feedback = document.getElementById("feedbackmsg").value;
     const feedbackMessages = document.getElementById("feedback-messages");
-    console.log(subjectId, feedback);
+    
     try {
         const response = await fetch("http://localhost:5000/api/feedback/submit", {
             method: "POST",

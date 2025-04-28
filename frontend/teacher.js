@@ -245,7 +245,7 @@ async function generateReport() {
             }
         });
         const reportData = await response.json();
-        console.log(reportData);
+        
         const reportContent = document.getElementById("reports-content");
         reportContent.innerHTML = ""; // Clear previous data
 
@@ -289,7 +289,7 @@ async function fetchFeedback() {
 
         const feedbackContainer = document.getElementById("feedback-container");
         feedbackContainer.innerHTML = ""; // Clear previous feedback
-        console.log(feedbacks);
+        
         if (feedbacks.length === 0) {
             feedbackContainer.innerHTML = "<p>No feedback available.</p>";
             return;
@@ -303,11 +303,10 @@ async function fetchFeedback() {
             acc[feedback.subjectId._id].push(feedback);
             return acc;
         }, {});
-        console.log(feedbackBySubject);
         // Display feedback grouped by subject
         for (const subjectId in feedbackBySubject) {
             const subjectFeedback = feedbackBySubject[subjectId];
-            console.log(subjectId);
+            
             // Create a container for each subject's feedback
             const subjectContainer = document.createElement("div");
             subjectContainer.classList.add("subject-container");

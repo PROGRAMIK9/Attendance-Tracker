@@ -15,7 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         });
 
         const data = await response.json();
-        console.log("Server Response:", data);
+        
         if (response.ok) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.role);

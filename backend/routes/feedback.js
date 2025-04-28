@@ -37,7 +37,6 @@ router.get("/teacher", authMiddleware, async (req, res) => {
         const feedbacks = await Feedback.find({ subjectId: { $in: subjectIds } })
             .populate("subjectId", "name") // Populate subject details
             .select("-studentId"); // Exclude studentId to keep it anonymous
-        console.log(feedbacks);
         res.status(200).json(feedbacks);
     } catch (error) {
         console.error("Error fetching feedback:", error);

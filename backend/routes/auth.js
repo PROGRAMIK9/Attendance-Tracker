@@ -112,7 +112,6 @@ router.post("/change-password",authMiddleware, async (req,res)=>{
         if (!password) {
             return res.status(400).json({ message: "New password is required" });
         }
-        console.log(password)
         const hashedPassword = await bcrypt.hash(password, 10);
         const role = req.user.role;
         let Model;

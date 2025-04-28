@@ -62,7 +62,6 @@ router.get("/student", authMiddleware, async (req, res) => {
             subject:subjectId,
             month
         }).populate("student", "username");
-        console.log(attendanceRecords);
         if (!attendanceRecords || attendanceRecords.length === 0) {
             return res.status(404).json({ message: "No attendance records found" });
         }

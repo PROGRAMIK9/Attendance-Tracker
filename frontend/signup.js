@@ -4,7 +4,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     const role = document.getElementById("role").value;
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    console.log(role,username,password)
+    
     try {
         const response = await fetch("http://localhost:5000/api/auth/signup", {
             method: "POST",

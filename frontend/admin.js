@@ -254,7 +254,6 @@ async function addStudent() {
         alert("Please fill in all fields.");
         return;
     }
-    console.log(username,classId)
     await fetch("http://localhost:5000/api/students/add", {
         method: "POST",
             headers: {
@@ -402,7 +401,6 @@ async function fetchSubjects() {
             const teacherName = sub.teacherId ? sub.teacherId.username : "Unassigned";
             const className = sub.classId ? sub.classId.name : "Unknown Class";
 
-            console.log(sub);
             span.textContent = `${sub.name} (Class: ${className}, Teacher: ${teacherName})`;
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Delete";

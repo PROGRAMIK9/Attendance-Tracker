@@ -12,7 +12,7 @@
 
 <body>
     <div class="dashboard-container">
-        <nav class="sidebar">
+        <nav class="sidebar teacher-sidebar">
             <h2>Teacher Dashboard</h2>
             <ul>
                 <li><a href="#" onclick="showSection('subjects')"> Assigned Subjects </a></li>
@@ -110,11 +110,11 @@
                 <h2>Leave Application</h2>
                 <form id="leaveForm" onsubmit="leaveSubmit(event)">
                     <label for="leave-date">Select Date:</label>
-                    <input type="date" id="leave-date" name="date" required>
+                    <input type="date" id="leave-date" name="date" required><br>
                     <label for="leavemsg">Reason for Leave:</label>
                     <textarea id="leavemsg" name="leave" required></textarea>
                     <button type="submit">Submit Application</button>
-                </form>
+                </form><br><br><br>
                 <div id="applications"></div>
             </section>
         </main>
